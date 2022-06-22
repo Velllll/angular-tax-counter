@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-forms';
+
+  myForm!: FormGroup
+  constructor(private FormBuilder: FormBuilder) {
+    this.myForm = this.FormBuilder.group({
+      name: [''],
+      age: ['22'],
+      job: ['']
+    })
+  }
+
+  submitForm() {
+
+  }
 }

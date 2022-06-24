@@ -1,0 +1,42 @@
+.wrapper {
+
+}
+
+
+
+.table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid rgb(143, 143, 143);
+
+    button {
+        border: none;
+        padding: 5px;
+        cursor: pointer;
+        margin: 3px;
+    }
+    button.green {
+        background-color: rgb(93, 196, 93);
+    }
+    button.red {
+        background-color: rgb(209, 124, 118);
+    }
+
+    input {
+        width: 80%;
+    }
+
+    th, td {
+        border: 1px solid rgb(143, 143, 143);
+        text-align: center;
+        padding: 5px;
+    }
+}
+
+.has-error {
+    border-color: rgba(182, 59, 59, 0.685);
+    &:focus {
+        border-color: rgba(182, 59, 59, 0.685);
+    }
+}

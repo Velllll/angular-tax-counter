@@ -1,1 +1,102 @@
-<app-reactive-form></app-reactive-form>
+<div class="wrapper">
+  <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
+    <!-- <nav class="navbar">
+      <div class="container">
+        <a class="navbar-brand">Items</a>
+        <form class="form">
+          <input type="text">
+          <button type="submit">Search</button>
+        </form>
+      </div>
+    </nav> -->
+
+    <div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th *ngFor="let title of itemsTitles">{{title}}</th>
+            <td><button class="green">Add Category</button></td>
+          </tr>
+        </thead>
+
+        <tbody *ngFor="let item of localItems">
+          <tr>
+            <td title="Category">
+              <input 
+              [ngClass]="{'has-error': Category.invalid}" 
+              type="text" 
+              name="cat{{item.id}}" 
+              #Category="ngModel" 
+              [(ngModel)]="item.name" 
+              required>
+            </td>
+            <td colspan="5"></td>
+            <td title="Add Item / Remove Item">
+              <button class="green">Add Item</button>
+              <button class="red">Remove Category</button>
+            </td>
+          </tr>
+          <tr *ngFor="let items of item.items">
+            <td></td>
+
+            <td title="item">
+              <input 
+              [ngClass]="{'has-error': item.invalid}" 
+              type="text" 
+              name="item{{items.id}}"
+              [(ngModel)]="items.name" 
+              #item="ngModel" 
+              required>
+            </td>
+
+            <td title="glcode">
+              <input 
+              [ngClass]="{'has-error': glcode.invalid}" 
+              #glcode="ngModel" 
+              required
+              pattern="^[0-9]+$"
+              type="text" 
+              name="glcode{{items.id}}"
+              [(ngModel)]="items.glcode" >
+            </td>
+
+            <td title="amount">
+              <input 
+              [ngClass]="{'has-error': amount.invalid}" 
+              #amount="ngModel" 
+              required
+              pattern="^[0-9]+$"
+              type="text" 
+              name="amount{{items.id}}"
+              [(ngModel)]="items.amount">
+            </td>
+
+            <td title="salesTax">
+              <select 
+              class="formControl"
+              [ngClass]="{'has-error': salesTax.invalid}" 
+              #salesTax="ngModel" 
+              required
+              type="text" 
+              name="salesTax{{items.id}}"
+              [(ngModel)]="items.salesTax">
+                <option value="null" disabled >Tax</option>
+                <option 
+                *ngFor="let tax of salesTaxArray"
+                [ngValue]="tax.value">
+                  {{tax.title}}
+                </option>
+              </select>
+            </td>
+
+          </tr>
+        </tbody>
+
+        <tfoot>
+
+        </tfoot>
+
+      </table>
+    </div>
+  </form>
+</div>

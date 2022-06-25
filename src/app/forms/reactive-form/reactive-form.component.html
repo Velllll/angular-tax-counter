@@ -1,9 +1,0 @@
-<div>
-    <form [formGroup]="myForm" (ngSubmit)="submitForm()">
-      <div>Name: <input formControlName="name"></div>
-      <div>Age: <input formControlName="age"></div>
-      <div *ngIf="myForm.invalid && myForm.touched" style="color: rgb(167, 4, 4)">You should write a number</div>
-      <div>Job: <input formControlName="job"></div>
-      <button [disabled]="myForm.invalid" type="submit">Send</button>
-    </form>
-</div>

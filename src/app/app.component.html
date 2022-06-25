@@ -1,25 +1,33 @@
 <div class="wrapper">
   <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
-    <!-- <nav class="navbar">
+    <nav class="navbar">
       <div class="container">
-        <a class="navbar-brand">Items</a>
-        <form class="form">
-          <input type="text">
-          <button type="submit">Search</button>
-        </form>
+        <div class="navbar-brand">Tax Counter</div>
+        <input 
+        name="search" 
+        ngModel 
+        (ngModelChange)="searchByCategory($event)" 
+        type="text" 
+        placeholder="Search by category...">
       </div>
-    </nav> -->
+    </nav>
 
-    <div>
+    <div *ngIf="!notFound">
       <table class="table">
         <thead>
           <tr>
             <th *ngFor="let title of itemsTitles">{{title}}</th>
-            <td><button class="green">Add Category</button></td>
+            <td>
+              <button 
+              class="green" 
+              (click)="addCategory()">
+                Add Category
+              </button>
+            </td>
           </tr>
         </thead>
 
-        <tbody *ngFor="let item of localItems">
+        <tbody *ngFor="let item of itemsArray">
           <tr>
             <td title="Category">
               <input 
@@ -32,8 +40,13 @@
             </td>
             <td colspan="5"></td>
             <td title="Add Item / Remove Item">
-              <button class="green">Add Item</button>
-              <button class="red">Remove Category</button>
+              <button class="green" (click)="addItemToCategory(item.id)">Add Item</button>
+              <button 
+              class="red" 
+              (click)="removeCategory(item.id)" 
+              [disabled]="localItems.length === 1">
+                Remove Category
+              </button>
             </td>
           </tr>
           <tr *ngFor="let items of item.items">
@@ -41,23 +54,23 @@
 
             <td title="item">
               <input 
-              [ngClass]="{'has-error': item.invalid}" 
+              [ngClass]="{'has-error': getitem.invalid}" 
               type="text" 
               name="item{{items.id}}"
               [(ngModel)]="items.name" 
-              #item="ngModel" 
+              #getitem="ngModel" 
               required>
             </td>
 
-            <td title="glcode">
+            <td title="Price">
               <input 
-              [ngClass]="{'has-error': glcode.invalid}" 
-              #glcode="ngModel" 
+              [ngClass]="{'has-error': Price.invalid}" 
+              #Price="ngModel" 
               required
               pattern="^[0-9]+$"
               type="text" 
-              name="glcode{{items.id}}"
-              [(ngModel)]="items.glcode" >
+              name="Price{{items.id}}"
+              [(ngModel)]="items.price" >
             </td>
 
             <td title="amount">
@@ -80,23 +93,45 @@
               type="text" 
               name="salesTax{{items.id}}"
               [(ngModel)]="items.salesTax">
-                <option value="null" disabled >Tax</option>
                 <option 
                 *ngFor="let tax of salesTaxArray"
-                [ngValue]="tax.value">
+                [ngValue]="tax">
                   {{tax.title}}
                 </option>
               </select>
+              <div>
+                {{items.salesTax?.value ? items.salesTax?.value + '%' : '0%'}}
+              </div>
             </td>
-
+            <td title="Total">
+              {{(items.price === null ? 0 : items.price * items.amount + (items.price * items.amount * items.salesTax.value / 100)) | currency}}
+            </td>
+            <td title="Remove">
+              <button 
+              [disabled]="item.items.length === 1"
+              class="red" 
+              (click)="removeItemFromItems(item.id, items.id)">
+                Remove
+              </button>
+            </td>
           </tr>
         </tbody>
 
-        <tfoot>
-
+        <tfoot *ngIf="localItemsFiltred.length === 0">
+          <tr>
+            <td colspan="4"></td>
+            <td>
+              <strong>Total</strong>
+            </td>
+            <td>{{total | currency}}</td>
+          </tr>
         </tfoot>
 
       </table>
     </div>
   </form>
+
+  <div class="notFound" *ngIf="notFound">
+    Category not found
+  </div>
 </div>
